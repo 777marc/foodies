@@ -3,7 +3,7 @@ import Link from "next/link";
 function page() {
   return (
     <>
-      <div>Meals</div>
+      <div>Meals!</div>
       <p>
         <Link href="meals/123">Meal 123</Link>
       </p>
