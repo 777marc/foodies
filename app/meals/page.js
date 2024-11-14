@@ -1,17 +1,23 @@
 import Link from "next/link";
+import styleClasses from "./page.module.css";
+import MealsGrid from "@/components/meals/meals-grid";
 
-function page() {
+export default function page() {
   return (
     <>
-      <div>Meals!</div>
-      <p>
-        <Link href="meals/123">Meal 123</Link>
-      </p>
-      <p>
-        <Link href="meals/share/123">Share</Link>
-      </p>
+      <header className={styleClasses.header}>
+        <h1>
+          Delicious meals, created{" "}
+          <span className={styleClasses.highlight}>by you</span>
+        </h1>
+        <p>cook you favs and time any where....</p>
+        <p className={styleClasses.cta}>
+          <Link href="/meals/share">Share this recipe</Link>
+        </p>
+      </header>
+      <main className={styleClasses.main}>
+        <MealsGrid meals={[]} />
+      </main>
     </>
   );
 }
-
-export default page;
