@@ -1,20 +1,31 @@
-import { Suspense } from "react";
-import MealItem from "@/components/meals/meal-item";
 import { getMeal } from "@/db/meals";
+import Image from "next/image";
+import styleClasses from "./page.module.css";
 
-async function Meal({ slug }) {
-  const meal = await getMeal(slug);
-  return <MealItem {...meal} />;
-}
-
-function page({ params }) {
+export default async function MealDetailsPage({ params }) {
+  const meal = await getMeal(params.slug);
   return (
-    <main>
-      <Suspense fallback={<p className="loading">Loading...</p>}>
-        <Meal slug={params.slug} />
-      </Suspense>
-    </main>
+    <>
+      <header className={styleClasses.header}>
+        <div className={styleClasses.image}>
+          <Image src={meal.image} alt={meal.title} fill />
+        </div>
+        <div className={styleClasses.headerText}>
+          <h1>{meal.title}</h1>
+          <p className={styleClasses.creator}>
+            by <a href="#">{meal.creator}</a>
+          </p>
+          <p className={styleClasses.summary}>{meal.summary}</p>
+        </div>
+      </header>
+      <main>
+        <p
+          className={styleClasses.instructions}
+          dangerouslySetInnerHTML={{
+            __html: meal.instructions.replace(/\n/g, "<br />"),
+          }}
+        ></p>
+      </main>
+    </>
   );
 }
-
-export default page;
