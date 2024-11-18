@@ -1,9 +1,15 @@
 import { getMeal } from "@/db/meals";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import styleClasses from "./page.module.css";
 
 export default async function MealDetailsPage({ params }) {
   const meal = await getMeal(params.slug);
+
+  if (!meal) {
+    notFound();
+  }
+
   return (
     <>
       <header className={styleClasses.header}>
