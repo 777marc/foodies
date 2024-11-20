@@ -11,16 +11,22 @@ export default function ImagePicker({ lable, name }) {
   }
 
   function handleImageChange(event) {
-    const file = event.target.files[0];
-    if (!file) {
+    const file = document.querySelector("input[type=file]").files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      "load",
+      () => {
+        setPickedImage(reader.result);
+      },
+      false
+    );
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
       setPickedImage(null);
-      return;
     }
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPickedImage(fileReader.result);
-    };
-    fileReader.readAsDataURL(file);
   }
 
   return (
@@ -31,7 +37,7 @@ export default function ImagePicker({ lable, name }) {
           className={styleClasses.input}
           type="file"
           id={name}
-          accept="image/png, image/jpeg"
+          accept="image/*"
           name={name}
           ref={imageInput}
           onChange={handleImageChange}
